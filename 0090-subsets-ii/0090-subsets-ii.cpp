@@ -1,23 +1,27 @@
 class Solution {
-private:
-    void recursion(vector<int>& nums, vector<vector<int>>& ans, vector<int>& output, int index){
-        if(index>=nums.size()){
-           if( find(ans.begin(), ans.end(), output) == ans.end()){
-            ans.push_back(output);
-           }
+public:
+void helper(vector<int> &arr,int i,vector<int> curr,vector<vector<int>> &res)
+    { 
+        if(i==arr.size())
+        {  
+            res.push_back(curr);           
             return;
         }
-        output.push_back(nums[index]);
-        recursion(nums,ans,output,index+1);
-        output.pop_back();
-        recursion(nums,ans,output,index+1);
+        curr.push_back(arr[i]);
+        helper(arr,i+1,curr,res);
+        curr.pop_back();
+        int j=i;
+        while(j<arr.size()-1 && arr[j]==arr[j+1])j++;
+        helper(arr,j+1,curr,res);
+        return;
     }
-public:
-    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
-        vector<vector<int>> ans;
-        vector<int> output;
-        sort(nums.begin(),nums.end());
-        recursion(nums,ans,output,0);
-        return ans;
+    vector<vector<int>> subsetsWithDup(vector<int>& arr) {
+        sort(arr.begin(),arr.end());
+        vector<vector<int>> res;
+        vector<int> curr;
+
+        helper(arr,0,curr,res);
+
+        return res;
     }
 };
